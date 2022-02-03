@@ -10,4 +10,14 @@ public class CursoJavaECommerceApplication {
 		SpringApplication.run(CursoJavaECommerceApplication.class, args);
 	}
 
+	/* Implementacao do find by id java 8
+	 * 
+	 * public Categoria find(Integer id){
+	 * 
+	 * 	Optional<Categoria> obj = repo.findById(id); 
+	 * 	return obj.orElse(null);
+	 * }
+	 * 
+	 */
+	
 }
