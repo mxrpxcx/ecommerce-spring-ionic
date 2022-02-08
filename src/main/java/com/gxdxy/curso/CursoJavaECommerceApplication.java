@@ -8,8 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.gxdxy.curso.domain.Categoria;
+import com.gxdxy.curso.domain.Cidade;
+import com.gxdxy.curso.domain.Estado;
 import com.gxdxy.curso.domain.Produto;
 import com.gxdxy.curso.repository.CategoriaRepository;
+import com.gxdxy.curso.repository.CidadeRepository;
+import com.gxdxy.curso.repository.EstadoRepository;
 import com.gxdxy.curso.repository.ProdutoRepository;
 
 @SpringBootApplication
@@ -20,6 +24,12 @@ public class CursoJavaECommerceApplication implements CommandLineRunner {
 	
 	@Autowired
 	private ProdutoRepository produtoRepo;
+	
+	@Autowired
+	private EstadoRepository estadoRepo;
+	
+	@Autowired
+	private CidadeRepository cidadeRepo;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursoJavaECommerceApplication.class, args);
@@ -45,6 +55,19 @@ public class CursoJavaECommerceApplication implements CommandLineRunner {
 		
 		categoriaRepo.saveAll(Arrays.asList(c1,c2, c3));
 		produtoRepo.saveAll(Arrays.asList(p1,p2,p3));
+		
+		Estado e1 = new Estado(null, "Minas Gerais");
+		Estado e2 = new Estado(null, "São Paulo");
+		
+		Cidade cid1 = new Cidade(null, "Uberlandia", e1);
+		Cidade cid2 = new Cidade(null, "São Paulo", e2);
+		Cidade cid3 = new Cidade(null, "Campinas", e2);
+		
+		e1.getCidades().add(cid1);
+		e2.getCidades().addAll(Arrays.asList(cid2,cid3));
+		
+		estadoRepo.saveAll(Arrays.asList(e1,e2));
+		cidadeRepo.saveAll(Arrays.asList(cid1,cid2,cid3));
 		
 	}
 
