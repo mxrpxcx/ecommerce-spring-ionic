@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.gxdxy.curso.domain.Categoria;
 import com.gxdxy.curso.domain.Cidade;
+import com.gxdxy.curso.domain.Cliente;
+import com.gxdxy.curso.domain.Endereco;
 import com.gxdxy.curso.domain.Estado;
 import com.gxdxy.curso.domain.Produto;
+import com.gxdxy.curso.domain.enums.TipoCliente;
 import com.gxdxy.curso.repository.CategoriaRepository;
 import com.gxdxy.curso.repository.CidadeRepository;
+import com.gxdxy.curso.repository.ClienteRepository;
+import com.gxdxy.curso.repository.EnderecoRepository;
 import com.gxdxy.curso.repository.EstadoRepository;
 import com.gxdxy.curso.repository.ProdutoRepository;
 
@@ -30,6 +35,12 @@ public class CursoJavaECommerceApplication implements CommandLineRunner {
 	
 	@Autowired
 	private CidadeRepository cidadeRepo;
+	
+	@Autowired
+	private ClienteRepository clienteRepo;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepo;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursoJavaECommerceApplication.class, args);
@@ -68,6 +79,16 @@ public class CursoJavaECommerceApplication implements CommandLineRunner {
 		
 		estadoRepo.saveAll(Arrays.asList(e1,e2));
 		cidadeRepo.saveAll(Arrays.asList(cid1,cid2,cid3));
+		
+		Cliente cli1 = new Cliente(null,"Maria Silva","M@M.COM","119", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("190","192"));
+		Endereco end1 = new Endereco(null,"Rua Flores","300","Apto 303","Jardim","3030",cli1,cid1);
+		Endereco end2 = new Endereco(null,"Avenida Matos","105","Sala 800","Centro","3031",cli1,cid2);
+
+		cli1.getEnderecos().addAll(Arrays.asList(end1,end2));
+		
+		clienteRepo.saveAll(Arrays.asList(cli1));
+		enderecoRepo.saveAll(Arrays.asList(end1,end2));
 		
 	}
 
