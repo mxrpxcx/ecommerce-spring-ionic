@@ -1,9 +1,10 @@
 package com.gxdxy.curso.domain;
 
-import java.util.Date;
+import javax.persistence.Entity;
 
 import com.gxdxy.curso.domain.enums.EstadoPagamento;
 
+@Entity
 public class PagamentoComCartao extends Pagamento {
 
 	private static final long serialVersionUID = 1L;
