@@ -13,6 +13,7 @@ import com.gxdxy.curso.domain.Cidade;
 import com.gxdxy.curso.domain.Cliente;
 import com.gxdxy.curso.domain.Endereco;
 import com.gxdxy.curso.domain.Estado;
+import com.gxdxy.curso.domain.ItemPedido;
 import com.gxdxy.curso.domain.Pagamento;
 import com.gxdxy.curso.domain.PagamentoComBoleto;
 import com.gxdxy.curso.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.gxdxy.curso.repository.CidadeRepository;
 import com.gxdxy.curso.repository.ClienteRepository;
 import com.gxdxy.curso.repository.EnderecoRepository;
 import com.gxdxy.curso.repository.EstadoRepository;
+import com.gxdxy.curso.repository.ItemPedidoRepository;
 import com.gxdxy.curso.repository.PagamentoRepository;
 import com.gxdxy.curso.repository.PedidoRepository;
 import com.gxdxy.curso.repository.ProdutoRepository;
@@ -55,6 +57,9 @@ public class CursoJavaECommerceApplication implements CommandLineRunner {
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepo;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepo;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursoJavaECommerceApplication.class, args);
@@ -118,6 +123,19 @@ public class CursoJavaECommerceApplication implements CommandLineRunner {
 		
 		pedidoRepo.saveAll(Arrays.asList(ped1,ped2));
 		pagamentoRepo.saveAll(Arrays.asList(pag1,pag2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1,p1,0.00,1,p1.getPreco());
+		ItemPedido ip2 = new ItemPedido(ped1,p3,0.00,1,p3.getPreco());
+		ItemPedido ip3 = new ItemPedido(ped2,p2,100.00,1,p2.getPreco());
+		
+		ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+		ped2.getItens().add(ip3);
+		
+		p1.getItens().add(ip1);
+		p2.getItens().add(ip3);
+		p3.getItens().add(ip2);
+		
+		itemPedidoRepo.saveAll(Arrays.asList(ip1,ip2,ip3));
 		
 	}
 
