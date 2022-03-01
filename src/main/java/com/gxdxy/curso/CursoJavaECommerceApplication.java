@@ -70,6 +70,8 @@ public class CursoJavaECommerceApplication implements CommandLineRunner {
 		Categoria c1 = new Categoria(null, "Galaxy");
 		Categoria c2 = new Categoria(null, "Apple");
 		Categoria c3 = new Categoria(null, "Xiaomi");
+		Categoria c4 = new Categoria(null, "Motorola");
+		Categoria c5 = new Categoria(null, "LG");
 		
 		Produto p1 = new Produto(null, "S20 FE", 1900.00); 
 		Produto p2 = new Produto(null, "iPhone SE", 2500.00);
@@ -83,7 +85,7 @@ public class CursoJavaECommerceApplication implements CommandLineRunner {
 		p2.getCategorias().add(c2);
 		p3.getCategorias().add(c3);
 		
-		categoriaRepo.saveAll(Arrays.asList(c1,c2, c3));
+		categoriaRepo.saveAll(Arrays.asList(c1,c2, c3, c4, c5));
 		produtoRepo.saveAll(Arrays.asList(p1,p2,p3));
 		
 		Estado e1 = new Estado(null, "Minas Gerais");
