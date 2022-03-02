@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.gxdxy.curso.domain.Categoria;
-import com.gxdxy.curso.domain.Cliente;
 import com.gxdxy.curso.dto.CategoriaDTO;
 import com.gxdxy.curso.repository.CategoriaRepository;
 import com.gxdxy.curso.service.exception.DataIntegrityException;

@@ -1,5 +1,6 @@
 package com.gxdxy.curso.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.gxdxy.curso.domain.Cliente;
 import com.gxdxy.curso.dto.ClienteDTO;
+import com.gxdxy.curso.dto.ClienteNewDTO;
 import com.gxdxy.curso.service.ClienteService;
 
 @RestController
@@ -30,6 +33,16 @@ public class ClienteResource {
 	public ResponseEntity<Cliente> listar(@PathVariable Integer id) {
 		Cliente obj = service.buscar(id);
 		return ResponseEntity.ok().body(obj);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> inserir(@Valid @RequestBody ClienteNewDTO dto) {
+		Cliente obj = service.fromDTO(dto);
+		
+		obj = service.inserir(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
