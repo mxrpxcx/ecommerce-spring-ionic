@@ -40,6 +40,7 @@ public class ProdutoResource {
 		
 		String nomeDecoded = URL.decodeParam(nome);
 		List<Integer> ids = URL.decodeIntList(categorias);
+		
 		Page<Produto> lista = service.buscarProdutos(nomeDecoded, ids, page,lines,orderBy,dir);
 		Page<ProdutoDTO> listDTO = lista.map(obj -> new ProdutoDTO(obj));
 		return ResponseEntity.ok().body(listDTO);
