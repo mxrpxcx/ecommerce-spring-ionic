@@ -67,7 +67,7 @@ public class CursoJavaECommerceApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Categoria c1 = new Categoria(null, "Galaxy");
+		Categoria c1 = new Categoria(null, "Samsung");
 		Categoria c2 = new Categoria(null, "Apple");
 		Categoria c3 = new Categoria(null, "Xiaomi");
 		Categoria c4 = new Categoria(null, "Motorola");
@@ -77,16 +77,25 @@ public class CursoJavaECommerceApplication implements CommandLineRunner {
 		Produto p2 = new Produto(null, "iPhone SE", 2500.00);
 		Produto p3 = new Produto(null, "Mi 11", 3500.00);
 		
-		c1.getProdutos().add(p1);
+		Produto p4 = new Produto(null, "Edge 30 PRO", 5500.00);
+		Produto p5 = new Produto(null, "S22 ULTRA", 15000.00);
+		Produto p6 = new Produto(null, "Velvet", 15000.00);
+		
+		c1.getProdutos().addAll(Arrays.asList(p1,p5));
 		c2.getProdutos().add(p2);
 		c3.getProdutos().add(p3);
+		c4.getProdutos().add(p4);
+		c5.getProdutos().add(p6);
 		
 		p1.getCategorias().add(c1);
 		p2.getCategorias().add(c2);
 		p3.getCategorias().add(c3);
+		p4.getCategorias().add(c4);
+		p5.getCategorias().add(c1);
+		p6.getCategorias().add(c5);
 		
 		categoriaRepo.saveAll(Arrays.asList(c1,c2, c3, c4, c5));
-		produtoRepo.saveAll(Arrays.asList(p1,p2,p3));
+		produtoRepo.saveAll(Arrays.asList(p1,p2,p3,p4,p5,p6));
 		
 		Estado e1 = new Estado(null, "Minas Gerais");
 		Estado e2 = new Estado(null, "São Paulo");
