@@ -36,6 +36,9 @@ public class PedidoService {
 	@Autowired
 	private ItemPedidoRepository ipRepo;
 	
+	@Autowired
+	private EmailService emailService;
+	
 	
 	public Pedido buscar(Integer id){
 			
@@ -68,7 +71,7 @@ public class PedidoService {
 		}
 		
 		ipRepo.saveAll(obj.getItens());
-		System.out.println(obj );
+		emailService.enviarConfirmacaoPedido(obj);
 		return obj;
 	}
 	
