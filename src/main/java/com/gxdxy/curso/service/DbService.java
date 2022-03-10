@@ -20,6 +20,7 @@ import com.gxdxy.curso.domain.PagamentoComCartao;
 import com.gxdxy.curso.domain.Pedido;
 import com.gxdxy.curso.domain.Produto;
 import com.gxdxy.curso.domain.enums.EstadoPagamento;
+import com.gxdxy.curso.domain.enums.Perfil;
 import com.gxdxy.curso.domain.enums.TipoCliente;
 import com.gxdxy.curso.repository.CategoriaRepository;
 import com.gxdxy.curso.repository.CidadeRepository;
@@ -111,16 +112,24 @@ public class DbService {
 		estadoRepo.saveAll(Arrays.asList(e1,e2));
 		cidadeRepo.saveAll(Arrays.asList(cid1,cid2,cid3));
 		
-		Cliente cli1 = new Cliente(null,"Maria Silva","renanfgfg@gmail.com","119", TipoCliente.PESSOAFISICA,
+		Cliente cli1 = new Cliente(null,"Renan Godoy","renanfgfg@gmail.com","88640825068", TipoCliente.PESSOAFISICA,
 				pe.encode("Teste"));
 		cli1.getTelefones().addAll(Arrays.asList("190","192"));
+		cli1.addPerfil(Perfil.ADMIN);
+		
+		Cliente cli2 = new Cliente(null,"Maria Silva","maria@gmail.com","48345886027", TipoCliente.PESSOAFISICA,
+				pe.encode("Testes"));
+		cli2.getTelefones().addAll(Arrays.asList("190","192"));
+		
 		Endereco end1 = new Endereco(null,"Rua Flores","300","Apto 303","Jardim","3030",cli1,cid1);
 		Endereco end2 = new Endereco(null,"Avenida Matos","105","Sala 800","Centro","3031",cli1,cid2);
+		Endereco end3 = new Endereco(null,"Avenida Teste","105","Sala 800","Centro","3031",cli2,cid2);
 
 		cli1.getEnderecos().addAll(Arrays.asList(end1,end2));
+		cli2.getEnderecos().add(end3);
 		
-		clienteRepo.saveAll(Arrays.asList(cli1));
-		enderecoRepo.saveAll(Arrays.asList(end1,end2));
+		clienteRepo.saveAll(Arrays.asList(cli1,cli2));
+		enderecoRepo.saveAll(Arrays.asList(end1,end2,end3));
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 		Pedido ped1 = new Pedido(null,sdf.parse("01/01/2022 10:30"),cli1,end1);
