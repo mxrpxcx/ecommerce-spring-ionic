@@ -16,11 +16,14 @@ import org.springframework.stereotype.Service;
 import com.gxdxy.curso.domain.Cidade;
 import com.gxdxy.curso.domain.Cliente;
 import com.gxdxy.curso.domain.Endereco;
+import com.gxdxy.curso.domain.enums.Perfil;
 import com.gxdxy.curso.domain.enums.TipoCliente;
 import com.gxdxy.curso.dto.ClienteDTO;
 import com.gxdxy.curso.dto.ClienteNewDTO;
 import com.gxdxy.curso.repository.ClienteRepository;
 import com.gxdxy.curso.repository.EnderecoRepository;
+import com.gxdxy.curso.security.UserSS;
+import com.gxdxy.curso.service.exception.AuthorizationException;
 import com.gxdxy.curso.service.exception.DataIntegrityException;
 import com.gxdxy.curso.service.exception.ObjectNotFoundException;
 
@@ -36,7 +39,13 @@ public class ClienteService {
 	@Autowired
 	private EnderecoRepository endRepo;
 	
+	
 	public Cliente buscar(Integer id){
+		
+		UserSS user = UserService.authenticated();
+		if(user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
 			
 		  	Optional<Cliente> obj = repo.findById(id); 
 		  	return obj.orElseThrow(()->new ObjectNotFoundException(
