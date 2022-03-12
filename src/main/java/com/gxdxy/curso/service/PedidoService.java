@@ -4,8 +4,12 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.gxdxy.curso.domain.Cliente;
 import com.gxdxy.curso.domain.ItemPedido;
 import com.gxdxy.curso.domain.PagamentoComBoleto;
 import com.gxdxy.curso.domain.Pedido;
@@ -13,6 +17,8 @@ import com.gxdxy.curso.domain.enums.EstadoPagamento;
 import com.gxdxy.curso.repository.ItemPedidoRepository;
 import com.gxdxy.curso.repository.PagamentoRepository;
 import com.gxdxy.curso.repository.PedidoRepository;
+import com.gxdxy.curso.security.UserSS;
+import com.gxdxy.curso.service.exception.AuthorizationException;
 import com.gxdxy.curso.service.exception.ObjectNotFoundException;
 
 @Service
@@ -73,6 +79,20 @@ public class PedidoService {
 		ipRepo.saveAll(obj.getItens());
 		emailService.enviarConfirmacaoPedidoHTML(obj);
 		return obj;
+	}
+	
+	public Page<Pedido> buscarPagina(Integer page, Integer lines, String orderBy, String dir){
+		UserSS user = UserService.authenticated();
+		
+		if(user==null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		PageRequest pageRequest = PageRequest.of(page, lines, Direction.valueOf(dir), orderBy);
+		
+		Cliente	cli = cliService.buscar(user.getId());
+		
+		return repo.findByCliente(cli, pageRequest);
 	}
 	
 }
