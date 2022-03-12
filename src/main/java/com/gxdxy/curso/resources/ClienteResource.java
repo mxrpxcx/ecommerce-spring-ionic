@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,6 +46,7 @@ public class ClienteResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> atualizar(@PathVariable Integer id, @Valid @RequestBody ClienteDTO dto) {
 		Cliente obj = service.fromDTO(dto);
@@ -53,12 +55,14 @@ public class ClienteResource {
 		return ResponseEntity.noContent().build();
 	}
 
+	@PreAuthorize("hasAnyHole('ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> deletar(@PathVariable Integer id) {
 		service.deletar(id);
 		return ResponseEntity.noContent().build();
 	}
 
+	@PreAuthorize("hasAnyHole('ADMIN')")
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<ClienteDTO>> listarTudo() {
 		List<Cliente> lista = service.buscarTudo();
@@ -67,6 +71,7 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 
+	@PreAuthorize("hasAnyHole('ADMIN')")
 	@RequestMapping(value="/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<ClienteDTO>> listarPagina(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
