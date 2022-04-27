@@ -1,5 +1,6 @@
 package com.gxdxy.curso.service;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gxdxy.curso.domain.Cidade;
 import com.gxdxy.curso.domain.Cliente;
@@ -38,6 +40,9 @@ public class ClienteService {
 	
 	@Autowired
 	private EnderecoRepository endRepo;
+	
+	@Autowired
+	private S3Service s3Service;
 	
 	
 	public Cliente buscar(Integer id){
@@ -110,6 +115,10 @@ public class ClienteService {
 	private void atualizarDados(Cliente nObj, Cliente obj) {
 		nObj.setNome(obj.getNome());
 		nObj.setEmail(obj.getEmail());
+	}
+	
+	public URI uploadFoto(MultipartFile multipartFile) {
+		return s3Service.uploadFile(multipartFile);
 	}
 	
 }
